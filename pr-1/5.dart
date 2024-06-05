@@ -1,70 +1,71 @@
 import 'dart:io';
 
 void main() {
-  List<List<int>> matrix = [
+  // Initialize the 3x3 array
+  List<List<int>> array = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
   ];
 
   while (true) {
-    print('\nMenu:');
-    print('1. Sum of all elements');
-    print('2. Sum of specific row');
-    print('3. Sum of specific column');
-    print('4. Sum of diagonal elements');
-    print('5. Sum of antidiagonal elements');
-    print('6. Press 0 to exit');
+    // Display the menu
+    print('''\nMenu:
+1. Sum of all elements
+2. Sum of specific row
+3. Sum of specific column
+4. Sum of diagonal elements
+5. Sum of antidiagonal elements
+0. Exit''');
     stdout.write('Enter your choice: ');
+    int? choice = int.parse(stdin.readLineSync()!);
 
-    var choice = int.tryParse(stdin.readLineSync() ?? '');
+    if (choice == 0) {
+      break;
+    }
 
     switch (choice) {
       case 1:
-        print('Sum of all elements: ${sumOfAllElements(matrix)}');
+        int totalSum = sumOfAllElements(array);
+        print('Sum of all elements: $totalSum');
         break;
-
       case 2:
-        stdout.write('Enter the row index (0 to 2): ');
-        var rowIndex = int.tryParse(stdin.readLineSync() ?? '');
-        if (rowIndex != null && rowIndex >= 0 && rowIndex < matrix.length) {
-          print('Sum of row $rowIndex: ${sumOfRow(matrix, rowIndex)}');
+        stdout.write('Enter row index (0-2): ');
+        int row = int.parse(stdin.readLineSync()!);
+        if (row >= 0 && row < 3) {
+          int rowSum = sumOfSpecificRow(array, row);
+          print('Sum of elements in row $row: $rowSum');
         } else {
-          print('Invalid row index. Please enter a valid index.');
+          print('Invalid row index');
         }
         break;
-
       case 3:
-        stdout.write('Enter the column index (0 to 2): ');
-        var columnIndex = int.tryParse(stdin.readLineSync() ?? '');
-        if (columnIndex != null && columnIndex >= 0 && columnIndex < matrix[0].length) {
-          print('Sum of column $columnIndex: ${sumOfColumn(matrix, columnIndex)}');
+        stdout.write('Enter column index (0-2): ');
+        int column = int.parse(stdin.readLineSync()!);
+        if (column >= 0 && column < 3) {
+          int colSum = sumOfSpecificColumn(array, column);
+          print('Sum of elements in column $column: $colSum');
         } else {
-          print('Invalid column index. Please enter a valid index.');
+          print('Invalid column index');
         }
         break;
-
       case 4:
-        print('Sum of diagonal elements: ${sumOfDiagonal(matrix)}');
+        int diagonalSum = sumOfDiagonalElements(array);
+        print('Sum of diagonal elements: $diagonalSum');
         break;
-
       case 5:
-        print('Sum of antidiagonal elements: ${sumOfAntidiagonal(matrix)}');
+        int antiDiagonalSum = sumOfAntiDiagonalElements(array);
+        print('Sum of antidiagonal elements: $antiDiagonalSum');
         break;
-
-      case 6:
-        print('Exiting the program. Goodbye!');
-        return;
-
       default:
-        print('Invalid choice. Please select a valid option.');
+        print('Invalid choice. Please try again.');
     }
   }
 }
 
-int sumOfAllElements(List<List<int>> matrix) {
+int sumOfAllElements(List<List<int>> array) {
   int sum = 0;
-  for (var row in matrix) {
+  for (var row in array) {
     for (var element in row) {
       sum += element;
     }
@@ -72,22 +73,34 @@ int sumOfAllElements(List<List<int>> matrix) {
   return sum;
 }
 
-int sumOfRow(List<List<int>> matrix, int rowIndex) {
-  return matrix[rowIndex].reduce((value, element) => value + element);
-}
-
-int sumOfColumn(List<List<int>> matrix, int columnIndex) {
+int sumOfSpecificRow(List<List<int>> array, int row) {
   int sum = 0;
-  for (var row in matrix) {
-    sum += row[columnIndex];
+  for (var element in array[row]) {
+    sum += element;
   }
   return sum;
 }
 
-int sumOfDiagonal(List<List<int>> matrix) {
-  return matrix[0][0] + matrix[1][1] + matrix[2][2];
+int sumOfSpecificColumn(List<List<int>> array, int column) {
+  int sum = 0;
+  for (var row in array) {
+    sum += row[column];
+  }
+  return sum;
 }
 
-int sumOfAntidiagonal(List<List<int>> matrix) {
-  return matrix[0][2] + matrix[1][1] + matrix[2][0];
+int sumOfDiagonalElements(List<List<int>> array) {
+  int sum = 0;
+  for (int i = 0; i < array.length; i++) {
+    sum += array[i][i];
+  }
+  return sum;
+}
+
+int sumOfAntiDiagonalElements(List<List<int>> array) {
+  int sum = 0;
+  for (int i = 0; i < array.length; i++) {
+    sum += array[i][array.length - 1 - i];
+  }
+  return sum;
 }
