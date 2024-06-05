@@ -18,7 +18,7 @@ void main() {
 5. Sum of antidiagonal elements
 0. Exit''');
     stdout.write('Enter your choice: ');
-    int? choice = int.parse(stdin.readLineSync()!);
+    int? choice = int.parse(stdin.readLineSync() ?? "0");
 
     if (choice == 0) {
       break;
@@ -31,7 +31,7 @@ void main() {
         break;
       case 2:
         stdout.write('Enter row index (0-2): ');
-        int row = int.parse(stdin.readLineSync()!);
+        int row = int.parse(stdin.readLineSync()?? "0");
         if (row >= 0 && row < 3) {
           int rowSum = sumOfSpecificRow(array, row);
           print('Sum of elements in row $row: $rowSum');
@@ -41,7 +41,7 @@ void main() {
         break;
       case 3:
         stdout.write('Enter column index (0-2): ');
-        int column = int.parse(stdin.readLineSync()!);
+        int column = int.parse(stdin.readLineSync() ?? "0");
         if (column >= 0 && column < 3) {
           int colSum = sumOfSpecificColumn(array, column);
           print('Sum of elements in column $column: $colSum');
